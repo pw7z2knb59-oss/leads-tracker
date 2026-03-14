@@ -24,3 +24,6 @@ Open http://localhost:3000
 ## Notes
 - Indexing is done in `lib/indexer.ts`.
 - Workspace root is the parent of this app folder.
+
+## Brand System D
+- See /BRAND_SYSTEM_D
