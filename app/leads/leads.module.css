@@ -1,0 +1,246 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 18px 0 36px;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filterLink {
+  color: var(--muted);
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: rgba(255,255,255,0.02);
+  font-size: 13px;
+}
+
+.filterLink:hover {
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.filterActive {
+  color: var(--text);
+  border-color: var(--border-2);
+  background: rgba(255,255,255,0.05);
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.01));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: var(--shadow-3);
+}
+
+.sectionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.subtle {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.02);
+  box-shadow: var(--shadow-1);
+}
+
+@media (max-width: 1200px) {
+  .row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .metaRow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .notesField { grid-column: 1 / 4; }
+  .actions { grid-column: 1 / 4; justify-content: flex-start; }
+}
+
+.rowHeader {
+  display: none;
+  opacity: 0.7;
+  font-size: 11px;
+  letter-spacing: 0.4px;
+}
+
+@media (min-width: 1200px) {
+  .rowHeader { display: grid; }
+}
+
+.leadCard:hover {
+  border-color: var(--border-2);
+  box-shadow: var(--shadow-2);
+}
+
+.contactWrap {
+  display: grid;
+  gap: 6px;
+}
+
+.checks {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.checks label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checks input {
+  width: 16px;
+  height: 16px;
+}
+
+.linkBtn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-size: 12px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  text-decoration: none;
+  text-align: center;
+}
+
+.linkBtn:hover {
+  border-color: var(--accent);
+}
+
+.notesField {
+  grid-column: 1 / 5;
+}
+
+.metaRow {
+  grid-column: 1 / 7;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.actions {
+  grid-column: 5 / 7;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.ghostButton {
+  background: transparent;
+  border: 1px solid var(--border-2);
+  color: var(--text);
+}
+
+.dangerButton {
+  border-color: rgba(239,68,68,0.6);
+  color: #fca5a5;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.02);
+  font-size: 12px;
+}
+
+.template {
+  width: 100%;
+  min-height: 160px;
+  resize: vertical;
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.miniList {
+  display: grid;
+  gap: 8px;
+}
+
+.miniItem {
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+  font-size: 13px;
+}
+
+@media (min-width: 900px) {
+  .rowHeader {
+    display: grid;
+  }
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .actions {
+    grid-column: span 2;
+    justify-content: flex-start;
+  }
+
+  .notesField {
+    grid-column: span 2;
+  }
+
+  .metaRow {
+    grid-column: span 2;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

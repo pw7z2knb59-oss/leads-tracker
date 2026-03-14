@@ -1,0 +1,146 @@
+@import "./tokens.css";
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: radial-gradient(1200px 600px at 12% -10%, #151b28 0%, var(--bg) 60%);
+  color: var(--text);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 0 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.topnav { display: flex; gap: 10px; align-items: center; }
+.topnav a { color: var(--muted); text-decoration: none; padding: 6px 10px; border-radius: 8px; }
+.topnav a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+
+.brand { display: flex; align-items: center; gap: 14px; }
+.logo-wrap { width: 72px; height: 72px; border-radius: 16px; background: #e9e4db; display: grid; place-items: center; box-shadow: var(--shadow-2); }
+.logo-wrap img { width: 46px; height: 46px; }
+
+.subtitle { color: var(--muted); margin: 4px 0 0; }
+
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: var(--shadow-3);
+}
+
+.card.link:hover { box-shadow: 0 0 14px rgba(0,61,89,0.25), var(--shadow-3); }
+
+.card.link {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.08s ease, border-color 0.08s ease;
+}
+
+.card.link:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+input, select {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px;
+  background: var(--panel-2);
+  color: var(--text);
+}
+
+input::placeholder { color: var(--muted-2); }
+input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); outline: none; }
+
+.btn {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #f3f5f8; border: none; border-radius: 6px; padding: 10px 14px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+}
+.btn:hover { box-shadow: 0 0 14px var(--glow); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--muted);
+  margin-right: 6px;
+  background: rgba(255,255,255,0.02);
+}
+
+.note {
+  border-top: 1px dashed var(--border);
+  padding-top: 12px;
+  margin-top: 12px;
+}
+
+.note h3 { margin: 0 0 6px; }
+
+.small { color: var(--muted); font-size: 12px; }
+
+.section-head { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.subtle { color: var(--muted); font-size: 12px; }
+.dashboard-hero { display:flex; align-items:center; gap:14px; }
+.chart-wrap { overflow-x:auto; }
+.chart-inner { min-width: 900px; }
+.chips { display:flex; flex-wrap: wrap; gap: 8px; }
+.chip { border-radius: 999px; padding: 6px 10px; border: 1px solid var(--border); background: rgba(255,255,255,0.02); font-size: 12px; }
+
+.kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  background: rgba(255,255,255,0.06);
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+.tag { color: var(--accent); }
+
+.list {
+  display: grid;
+  gap: 12px;
+}
+
+.note {
+  border-top: 1px dashed var(--border);
+  padding-top: 12px;
+  margin-top: 12px;
+}
+
+.pin { color: #f5a524; font-weight: 600; }
