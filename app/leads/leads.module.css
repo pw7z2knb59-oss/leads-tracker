@@ -137,6 +137,29 @@
   font-size: 13px;
 }
 
+.contactInput {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 4px 6px;
+  border-radius: 8px;
+  width: 100%;
+  transition: border-color 80ms ease;
+}
+
+.contactInput:focus {
+  border-color: var(--border-2);
+  color: var(--text);
+  outline: none;
+}
+
+.inlineError {
+  color: #fca5a5;
+  font-size: 11px;
+  margin-top: 4px;
+}
+
 .rowNiche {
   color: var(--muted-2);
   font-size: 12px;

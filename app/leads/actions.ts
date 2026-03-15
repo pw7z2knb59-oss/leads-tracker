@@ -125,6 +125,45 @@ export async function updateNotes(leadId: string, notes: string) {
   return { error: null };
 }
 
+/* ── Update Instagram handle ──────────────────── */
+
+export async function updateContact(leadId: string, contact: string) {
+  const trimmedContact = contact.trim();
+
+  // Blank handles are invalid because the lead row needs a usable contact value.
+  if (!trimmedContact) {
+    return { error: "Instagram handle cannot be empty.", contact: null };
+  }
+
+  const contactNorm = normalizeContact(trimmedContact);
+
+  // Prevent duplicate handles while allowing the current lead to keep its own handle.
+  const { data: existing } = await supabase
+    .from("leads")
+    .select("id")
+    .eq("contact_norm", contactNorm)
+    .limit(1);
+
+  if (existing && existing.length > 0 && existing[0].id !== leadId) {
+    return { error: "This Instagram handle already exists.", contact: null };
+  }
+
+  const { error } = await supabase
+    .from("leads")
+    .update({
+      contact: trimmedContact,
+      contact_norm: contactNorm,
+    })
+    .eq("id", leadId);
+
+  if (error) {
+    return { error: error.message, contact: null };
+  }
+
+  revalidatePath("/leads");
+  return { error: null, contact: trimmedContact };
+}
+
 /* ── Delete lead ───────────────────────────────── */
 
 export async function deleteLead(leadId: string) {

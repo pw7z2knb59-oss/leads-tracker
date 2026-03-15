@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useRef, useTransition, useCallback } from "react";
+import { useState, useRef, useTransition, useCallback, useEffect } from "react";
 import type { Lead, StatusValue } from "../../lib/types";
 import { STATUS_OPTIONS, STATUS_LABELS } from "../../lib/constants";
-import { updateStatus, updateNotes, deleteLead } from "./actions";
+import { updateStatus, updateNotes, updateContact, deleteLead } from "./actions";
 import FollowUpActions from "./FollowUpActions";
 import styles from "./leads.module.css";
 
@@ -26,7 +26,6 @@ interface LeadRowProps {
 
 /** Interactive lead row with inline status, follow-up, notes, and delete */
 export default function LeadRow({ lead }: LeadRowProps) {
-  const igUrl = buildIgUrl(lead.contact);
   const overdue = isOverdue(lead.next_followup);
   const [isPending, startTransition] = useTransition();
 
@@ -63,6 +62,75 @@ export default function LeadRow({ lead }: LeadRowProps) {
     saveNotes(e.target.value);
   };
 
+  /* ── Inline Instagram handle editing ─────────── */
+  const [contact, setContact] = useState(lead.contact);
+  const [contactError, setContactError] = useState<string | null>(null);
+  const [savedContact, setSavedContact] = useState(lead.contact);
+  const igUrl = buildIgUrl(contact);
+
+  // Keep local state aligned if the row re-renders with fresh data from the server.
+  useEffect(() => {
+    setContact(lead.contact);
+    setSavedContact(lead.contact);
+    setContactError(null);
+  }, [lead.contact]);
+
+  const saveContact = useCallback(() => {
+    const nextContact = contact.trim();
+
+    // Don't send a mutation when nothing changed.
+    if (nextContact === savedContact) {
+      setContactError(null);
+      return;
+    }
+
+    // Reject blank values locally and restore the last saved handle.
+    if (!nextContact) {
+      setContact(savedContact);
+      setContactError("Instagram handle cannot be empty.");
+      return;
+    }
+
+    startTransition(async () => {
+      const result = await updateContact(lead.id, nextContact);
+
+      if (result?.error) {
+        setContact(savedContact);
+        setContactError(result.error);
+        return;
+      }
+
+      if (result?.contact) {
+        setSavedContact(result.contact);
+        setContact(result.contact);
+      }
+
+      setContactError(null);
+    });
+  }, [contact, lead.id, savedContact, startTransition]);
+
+  const handleContactChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setContact(e.target.value);
+    if (contactError) {
+      setContactError(null);
+    }
+  };
+
+  const handleContactKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      saveContact();
+      e.currentTarget.blur();
+    }
+
+    if (e.key === "Escape") {
+      e.preventDefault();
+      setContact(savedContact);
+      setContactError(null);
+      e.currentTarget.blur();
+    }
+  };
+
   /* ── Delete ──────────────────────────────────── */
   const handleDelete = () => {
     if (!window.confirm(`Delete ${lead.company}?`)) return;
@@ -79,7 +147,18 @@ export default function LeadRow({ lead }: LeadRowProps) {
       {/* Company + contact */}
       <div>
         <div className={styles.rowCompany}>{lead.company}</div>
-        <div className={styles.rowContact}>{lead.contact}</div>
+        <input
+          className={styles.contactInput}
+          value={contact}
+          onChange={handleContactChange}
+          onBlur={saveContact}
+          onKeyDown={handleContactKeyDown}
+          placeholder="@handle"
+          aria-label={`Instagram handle for ${lead.company}`}
+        />
+        {contactError ? (
+          <div className={styles.inlineError}>{contactError}</div>
+        ) : null}
       </div>
 
       {/* Status dropdown */}
