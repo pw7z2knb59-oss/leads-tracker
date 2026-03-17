@@ -9,11 +9,14 @@ import styles from "./leads.module.css";
 interface FilterBarProps {
   /** Currently active filter value (status string, "overdue", or null for all) */
   current: string | null;
+  /** Current text query from the URL search params */
+  searchQuery: string;
 }
 
 /** Status filter pills + overdue pill + Add Lead toggle + inline form */
-export default function FilterBar({ current }: FilterBarProps) {
+export default function FilterBar({ current, searchQuery }: FilterBarProps) {
   const [formOpen, setFormOpen] = useState(false);
+  const clearHref = current ? `/leads?status=${current}` : "/leads";
 
   return (
     <>
@@ -47,6 +50,27 @@ export default function FilterBar({ current }: FilterBarProps) {
 
         {/* Spacer pushes Add Lead to the right */}
         <div className={styles.filterSpacer} />
+
+        {/* Search form uses GET so search state lives in the URL */}
+        <form action="/leads" method="get" className={styles.searchForm}>
+          {current ? <input type="hidden" name="status" value={current} /> : null}
+          <input
+            className={styles.searchInput}
+            type="text"
+            name="q"
+            defaultValue={searchQuery}
+            placeholder="Search leads…"
+            aria-label="Search leads"
+          />
+          <button className={styles.searchButton} type="submit">
+            Search
+          </button>
+          {searchQuery ? (
+            <Link href={clearHref} className={styles.clearSearch}>
+              Clear
+            </Link>
+          ) : null}
+        </form>
 
         {/* Toggle add-lead form */}
         <button

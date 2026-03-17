@@ -25,9 +25,10 @@ function safeDiv(numerator: number, denominator: number): number {
 export default async function LeadsPage({
   searchParams,
 }: {
-  searchParams?: { status?: string };
+  searchParams?: { status?: string; q?: string };
 }) {
   const filterStatus = searchParams?.status ?? null;
+  const searchQuery = searchParams?.q?.trim().toLowerCase() ?? "";
   const today = new Date().toISOString().slice(0, 10);
   const weekStart = getWeekStart();
 
@@ -63,6 +64,23 @@ export default async function LeadsPage({
     filteredLeads = allLeads.filter((l) => l.status === filterStatus);
   } else {
     filteredLeads = allLeads;
+  }
+
+  // Apply simple search over the current filtered list.
+  if (searchQuery) {
+    filteredLeads = filteredLeads.filter((lead) => {
+      const searchableFields = [
+        lead.company,
+        lead.contact,
+        lead.niche,
+        lead.notes,
+        lead.website_url,
+      ];
+
+      return searchableFields.some((field) =>
+        (field ?? "").toLowerCase().includes(searchQuery)
+      );
+    });
   }
 
   /* ── Fetch event counts for funnel stats ─────── */
@@ -127,7 +145,7 @@ export default async function LeadsPage({
   return (
     <main className={styles.page}>
       <StatsStrip stats={stats} />
-      <FilterBar current={filterStatus} />
+      <FilterBar current={filterStatus} searchQuery={searchQuery} />
       <LeadsTable leads={filteredLeads} />
     </main>
   );
